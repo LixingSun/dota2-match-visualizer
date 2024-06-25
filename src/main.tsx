@@ -1,10 +1,46 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App.tsx';
 import './index.css';
+import AppLayout from '@/components/AppLayout.tsx';
+import { ConfigProvider, theme } from 'antd';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+
+const primaryBgColor = '#141414';
+const customTheme = {
+  algorithm: theme.darkAlgorithm,
+  cssVar: true,
+  token: {
+    colorBgBase: '#000000',
+    colorLink: '#FFFFFF',
+  },
+  components: {
+    Layout: {
+      headerBg: primaryBgColor,
+      siderBg: primaryBgColor,
+      footerBg: primaryBgColor,
+    },
+    Menu: {
+      darkItemBg: primaryBgColor,
+    },
+  },
+};
+
+const router = createBrowserRouter([
+  {
+    path: '/',
+    lazy: async () => {
+      const { Match } = await import('@/pages/Match/Match');
+      return { Component: Match };
+    },
+  },
+]);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <App />
+    <ConfigProvider theme={customTheme}>
+      <AppLayout>
+        <RouterProvider router={router} />
+      </AppLayout>
+    </ConfigProvider>
   </React.StrictMode>
 );
