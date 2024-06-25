@@ -23,46 +23,44 @@ const defaultOptions = {
   tooltip: {
     trigger: 'axis',
     valueFormatter: (value: number) =>
-      `${value >= 0 ? 'Radiant' : 'Dire'} leads by ${value}`,
+      `${value >= 0 ? 'Radiant' : 'Dire'} leads by ${Math.abs(value)}`,
   },
 };
 
-interface ILineChartProps {
-  data?: number[];
+interface IAreaChartProps {
+  data: number[];
 }
 
-const LineChart: React.FC<ILineChartProps> = ({ data }) => {
+const AreaChart: React.FC<IAreaChartProps> = ({ data }) => {
   const chartRef = useRef<ReactECharts>(null);
   useChartResize(chartRef);
 
   const options = useMemo(() => {
-    return data
-      ? {
-          ...defaultOptions,
-          xAxis: {
-            type: 'category',
-            data: data.map((_, index) => formatMinute(index)),
-          },
-          series: [
-            {
-              type: 'line',
-              smooth: true,
-              data,
-              areaStyle: {},
-            },
-          ],
-          visualMap: {
-            left: 'right',
-            min: 0,
-            max: 1,
-            inRange: {
-              color: ['#d32029', '#6f9412'],
-            },
-            text: ['>0', '<0'],
-            show: false,
-          },
-        }
-      : defaultOptions;
+    return {
+      ...defaultOptions,
+      xAxis: {
+        type: 'category',
+        data: data.map((_, index) => formatMinute(index)),
+      },
+      series: [
+        {
+          type: 'line',
+          smooth: true,
+          data,
+          areaStyle: {},
+        },
+      ],
+      visualMap: {
+        left: 'right',
+        min: 0,
+        max: 1,
+        inRange: {
+          color: ['#d32029', '#6f9412'],
+        },
+        text: ['>0', '<0'],
+        show: false,
+      },
+    };
   }, [data]);
 
   return (
@@ -74,4 +72,4 @@ const LineChart: React.FC<ILineChartProps> = ({ data }) => {
     />
   );
 };
-export default LineChart;
+export default AreaChart;
