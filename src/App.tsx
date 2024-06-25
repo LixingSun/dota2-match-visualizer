@@ -5,6 +5,7 @@ import {
   VideoCameraOutlined,
   GithubFilled,
 } from '@ant-design/icons';
+import LineChart from './components/LineChart';
 
 const { Header, Content, Footer, Sider } = Layout;
 const { Title, Link } = Typography;
@@ -84,7 +85,7 @@ function App() {
               alignItems: 'center',
             }}
           >
-            Placeholder
+            <LineChart />
           </Content>
           <Footer style={{ textAlign: 'center' }}>©dota2.oran.zone</Footer>
         </Layout>
