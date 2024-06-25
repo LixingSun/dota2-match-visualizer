@@ -4,6 +4,9 @@ import TeamLineChart from '@/components/TeamLineChart';
 import data from '@/data/match.json';
 import ChartCard from '@/components/ChartCard';
 import AreaChart from '@/components/AreaChart';
+import TeamScoreboard, {
+  IPlayerScoreboardData,
+} from '@/components/TeamScoreboard';
 
 interface IMatchData {
   radiant_gold_adv: number[];
@@ -12,6 +15,8 @@ interface IMatchData {
   dire_gold: number[];
   radiant_xp: number[];
   dire_xp: number[];
+  radiant_scoreboard: IPlayerScoreboardData[];
+  dire_scoreboard: IPlayerScoreboardData[];
 }
 
 const calcTeamGoldXp = (teamNumber: number, isGold: boolean): number[] => {
@@ -38,6 +43,21 @@ const calcTeamGoldXp = (teamNumber: number, isGold: boolean): number[] => {
   return teamSum;
 };
 
+const calcScoreboard = (teamNumber: number): IPlayerScoreboardData[] => {
+  return data.players
+    .filter((player) => player.team_number == teamNumber)
+    .map((player) => ({
+      key: player.account_id.toString(),
+      name: player.personaname,
+      heroId: player.hero_id,
+      kills: player.kills,
+      deaths: player.deaths,
+      assists: player.assists,
+      gpm: player.gold_per_min,
+      xpm: player.xp_per_min,
+    }));
+};
+
 export const Match: FC = () => {
   const [matchData, SetMatchData] = useState<IMatchData>({
     radiant_gold_adv: [],
@@ -46,6 +66,8 @@ export const Match: FC = () => {
     dire_gold: [],
     radiant_xp: [],
     dire_xp: [],
+    radiant_scoreboard: [],
+    dire_scoreboard: [],
   });
 
   useEffect(() => {
@@ -56,11 +78,19 @@ export const Match: FC = () => {
       dire_gold: calcTeamGoldXp(1, true),
       radiant_xp: calcTeamGoldXp(0, false),
       dire_xp: calcTeamGoldXp(1, false),
+      radiant_scoreboard: calcScoreboard(0),
+      dire_scoreboard: calcScoreboard(1),
     });
   }, []);
 
   return (
     <Row gutter={[16, 16]}>
+      <Col span={24}>
+        <TeamScoreboard data={matchData.radiant_scoreboard} isRadiant={true} />
+      </Col>
+      <Col span={24}>
+        <TeamScoreboard data={matchData.dire_scoreboard} isRadiant={false} />
+      </Col>
       <Col xs={24} lg={12}>
         <ChartCard title="Gold">
           <TeamLineChart data={[matchData.radiant_gold, matchData.dire_gold]} />
