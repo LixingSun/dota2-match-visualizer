@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
-import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg';
 import './App.css';
-import { Layout, Menu, theme } from 'antd';
-import { UserOutlined, VideoCameraOutlined } from '@ant-design/icons';
+import { Layout, Menu, ConfigProvider, Flex, Typography, theme } from 'antd';
+import {
+  UserOutlined,
+  VideoCameraOutlined,
+  GithubFilled,
+} from '@ant-design/icons';
 
 const { Header, Content, Footer, Sider } = Layout;
+const { Title, Link } = Typography;
 
 interface IMenuItem {
   key: string;
@@ -25,24 +27,35 @@ const menuItems: IMenuItem[] = [
   },
 ];
 
-function App() {
-  const [count, setCount] = useState(0);
-  const {
-    token: { colorBgContainer },
-  } = theme.useToken();
+const primaryBgColor = '#141414';
 
+const customTheme = {
+  algorithm: theme.darkAlgorithm,
+  cssVar: true,
+  token: {
+    colorBgBase: '#000000',
+    colorLink: '#FFFFFF',
+  },
+  components: {
+    Layout: {
+      headerBg: primaryBgColor,
+      siderBg: primaryBgColor,
+      footerBg: primaryBgColor,
+    },
+    Menu: {
+      darkItemBg: primaryBgColor,
+    },
+  },
+};
+
+function App() {
   return (
-    <>
+    <ConfigProvider theme={customTheme}>
       <Layout style={{ minHeight: '100vh' }}>
-        <Sider breakpoint="lg" collapsedWidth="0">
-          <div
-            style={{
-              height: '32px',
-              margin: '16px',
-              background: '#fff3',
-              borderRadius: '6px',
-            }}
-          />
+        <Sider breakpoint="lg" collapsedWidth="0" id="layout__sider">
+          <Title level={5} id="layout__title">
+            Dota2 Match Visualizer
+          </Title>
           <Menu
             theme="dark"
             mode="inline"
@@ -51,7 +64,17 @@ function App() {
           />
         </Sider>
         <Layout>
-          <Header style={{ padding: 0, background: colorBgContainer }}></Header>
+          <Header>
+            <Flex align="center" justify="end" style={{ height: '100%' }}>
+              <Link
+                href="https://github.com/LixingSun/dota2-match-visualizer/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <GithubFilled alt="Github" style={{ fontSize: '24px' }} />
+              </Link>
+            </Flex>
+          </Header>
           <Content
             style={{
               margin: '24px 16px 0',
@@ -61,33 +84,12 @@ function App() {
               alignItems: 'center',
             }}
           >
-            <div>
-              <a href="https://vitejs.dev" target="_blank">
-                <img src={viteLogo} className="logo" alt="Vite logo" />
-              </a>
-              <a href="https://react.dev" target="_blank">
-                <img src={reactLogo} className="logo react" alt="React logo" />
-              </a>
-            </div>
-            <h1>Vite + React</h1>
-            <div className="card">
-              <button onClick={() => setCount((count) => count + 1)}>
-                count is {count}
-              </button>
-              <p>
-                Edit <code>src/App.tsx</code> and save to test HMR
-              </p>
-            </div>
-            <p className="read-the-docs">
-              Click on the Vite and React logos to learn more
-            </p>
+            Placeholder
           </Content>
-          <Footer style={{ textAlign: 'center' }}>
-            ©Dota2 Match Visualizer
-          </Footer>
+          <Footer style={{ textAlign: 'center' }}>©dota2.oran.zone</Footer>
         </Layout>
       </Layout>
-    </>
+    </ConfigProvider>
   );
 }
 
