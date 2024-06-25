@@ -10,8 +10,9 @@ const customTheme = {
   algorithm: theme.darkAlgorithm,
   cssVar: true,
   token: {
+    colorPrimary: '#d32029',
     colorBgBase: '#000000',
-    colorLink: '#FFFFFF',
+    colorLink: '#ffffff',
   },
   components: {
     Layout: {
