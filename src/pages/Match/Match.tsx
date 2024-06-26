@@ -1,8 +1,8 @@
 import { useEffect, useState, FC } from 'react';
 import { Row, Col } from 'antd';
-import TeamLineChart from '@/components/TeamLineChart';
 import data from '@/data/match.json';
 import ChartCard from '@/components/ChartCard';
+import TeamLineChart from '@/components/TeamLineChart';
 import AreaChart from '@/components/AreaChart';
 import TeamScoreboard, { IPlayerScoreboardData } from './TeamScoreboard';
 import Overview, { IOverviewProps } from './Overview';
@@ -65,7 +65,7 @@ const calcScoreboard = (teamNumber: number): IPlayerScoreboardData[] => {
     }));
 };
 
-export const Match: FC = () => {
+const Match: FC = () => {
   const [matchData, SetMatchData] = useState<IMatchData>({
     overview: {
       radiantWin: true,
@@ -146,3 +146,4 @@ export const Match: FC = () => {
     </Row>
   );
 };
+export default Match;
