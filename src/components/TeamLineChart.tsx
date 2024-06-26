@@ -1,7 +1,8 @@
 import ReactECharts from 'echarts-for-react';
 import { useMemo, useRef } from 'react';
 import { useChartResize } from '@/hooks/useChartResize';
-import { formatMinute } from '@/utils/converters';
+import { formatMinute } from '@/utils/formatters';
+import { direColor, radiantColor } from '@/styles/variables';
 
 const defaultOptions = {
   backgroundColor: 'transparent',
@@ -40,16 +41,16 @@ const TeamLineChart: React.FC<ILineChartProps> = ({ data }) => {
           type: 'line',
           smooth: true,
           data: data[0],
-          itemStyle: { color: '#6f9412' },
-          lineStyle: { color: '#6f9412' },
+          itemStyle: { color: radiantColor },
+          lineStyle: { color: radiantColor },
         },
         {
           name: 'Dire',
           type: 'line',
           smooth: true,
           data: data[1],
-          itemStyle: { color: '#d32029' },
-          lineStyle: { color: '#d32029' },
+          itemStyle: { color: direColor },
+          lineStyle: { color: direColor },
         },
       ],
     };

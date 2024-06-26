@@ -1,7 +1,8 @@
 import ReactECharts from 'echarts-for-react';
 import { useMemo, useRef } from 'react';
 import { useChartResize } from '@/hooks/useChartResize';
-import { formatMinute } from '@/utils/converters';
+import { formatMinute } from '@/utils/formatters';
+import { direColor, radiantColor } from '@/styles/variables';
 
 const defaultOptions = {
   backgroundColor: 'transparent',
@@ -55,7 +56,7 @@ const AreaChart: React.FC<IAreaChartProps> = ({ data }) => {
         min: 0,
         max: 1,
         inRange: {
-          color: ['#d32029', '#6f9412'],
+          color: [direColor, radiantColor],
         },
         text: ['>0', '<0'],
         show: false,

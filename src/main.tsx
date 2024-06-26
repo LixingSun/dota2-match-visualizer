@@ -4,13 +4,13 @@ import './index.css';
 import AppLayout from '@/components/AppLayout.tsx';
 import { ConfigProvider, theme } from 'antd';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { primaryBgColor, primaryColor } from '@/styles/variables';
 
-const primaryBgColor = '#141414';
 const customTheme = {
   algorithm: theme.darkAlgorithm,
   cssVar: true,
   token: {
-    colorPrimary: '#d32029',
+    colorPrimary: primaryColor,
     colorBgBase: '#000000',
     colorLink: '#ffffff',
   },

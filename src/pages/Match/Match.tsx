@@ -50,11 +50,18 @@ const calcScoreboard = (teamNumber: number): IPlayerScoreboardData[] => {
       key: player.account_id.toString(),
       name: player.personaname,
       heroId: player.hero_id,
+      level: player.level,
       kills: player.kills,
       deaths: player.deaths,
       assists: player.assists,
+      lastHits: player.last_hits,
+      denies: player.denies,
+      netWorth: player.net_worth,
       gpm: player.gold_per_min,
       xpm: player.xp_per_min,
+      heroDamage: player.hero_damage,
+      towerDamage: player.tower_damage,
+      heroHealing: player.hero_healing,
     }));
 };
 
