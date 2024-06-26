@@ -4,11 +4,11 @@ import TeamLineChart from '@/components/TeamLineChart';
 import data from '@/data/match.json';
 import ChartCard from '@/components/ChartCard';
 import AreaChart from '@/components/AreaChart';
-import TeamScoreboard, {
-  IPlayerScoreboardData,
-} from '@/components/TeamScoreboard';
+import TeamScoreboard, { IPlayerScoreboardData } from './TeamScoreboard';
+import Overview, { IOverviewProps } from './Overview';
 
 interface IMatchData {
+  overview: IOverviewProps;
   radiant_gold_adv: number[];
   radiant_xp_adv: number[];
   radiant_gold: number[];
@@ -67,6 +67,16 @@ const calcScoreboard = (teamNumber: number): IPlayerScoreboardData[] => {
 
 export const Match: FC = () => {
   const [matchData, SetMatchData] = useState<IMatchData>({
+    overview: {
+      radiantTeamName: '',
+      direTeamName: '',
+      radiantScore: 0,
+      direScore: 0,
+      duration: 0,
+      league: '',
+      matchId: 0,
+      startTime: 0,
+    },
     radiant_gold_adv: [],
     radiant_xp_adv: [],
     radiant_gold: [],
@@ -79,6 +89,17 @@ export const Match: FC = () => {
 
   useEffect(() => {
     SetMatchData({
+      overview: {
+        radiantWin: data.radiant_win,
+        radiantTeamName: data.radiant_name,
+        direTeamName: data.dire_name,
+        radiantScore: data.radiant_score,
+        direScore: data.dire_score,
+        duration: data.duration,
+        league: data.league.name,
+        matchId: data.match_id,
+        startTime: data.start_time,
+      },
       radiant_gold_adv: data.radiant_gold_adv,
       radiant_xp_adv: data.radiant_xp_adv,
       radiant_gold: calcTeamGoldXp(0, true),
@@ -92,6 +113,9 @@ export const Match: FC = () => {
 
   return (
     <Row gutter={[16, 16]}>
+      <Col span={24}>
+        <Overview {...matchData.overview} />
+      </Col>
       <Col span={24}>
         <TeamScoreboard data={matchData.radiant_scoreboard} isRadiant={true} />
       </Col>
