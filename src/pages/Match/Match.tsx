@@ -68,6 +68,7 @@ const calcScoreboard = (teamNumber: number): IPlayerScoreboardData[] => {
 export const Match: FC = () => {
   const [matchData, SetMatchData] = useState<IMatchData>({
     overview: {
+      radiantWin: true,
       radiantTeamName: '',
       direTeamName: '',
       radiantScore: 0,

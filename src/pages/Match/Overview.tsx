@@ -12,8 +12,8 @@ export interface IOverviewProps {
   radiantWin: boolean;
   radiantTeamName: string;
   direTeamName: string;
-  radiantScore: string;
-  direScore: string;
+  radiantScore: number;
+  direScore: number;
   duration: number;
   startTime: number;
   league: string;
