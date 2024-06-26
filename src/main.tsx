@@ -1,12 +1,13 @@
 /* eslint-disable react-refresh/only-export-components */
 import React, { Suspense, lazy } from 'react';
 import ReactDOM from 'react-dom/client';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './index.css';
-import AppLayout from '@/components/AppLayout.tsx';
 import { ConfigProvider, Flex, theme } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import AppLayout from '@/components/AppLayout.tsx';
 import { primaryBgColor, primaryColor } from '@/styles/variables';
+import { MatchDataProvider } from '@/contexts/MatchData';
 
 const customTheme = {
   algorithm: theme.darkAlgorithm,
@@ -36,18 +37,24 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <ConfigProvider theme={customTheme}>
       <BrowserRouter>
         <AppLayout>
-          <Suspense
-            fallback={
-              <Flex justify="center" align="center" style={{ height: '100%' }}>
-                <LoadingOutlined style={{ fontSize: 32 }} />
-              </Flex>
-            }
-          >
-            <Routes>
-              <Route path="" element={<Match />} />
-              <Route path="players" element={<Players />} />
-            </Routes>
-          </Suspense>
+          <MatchDataProvider>
+            <Suspense
+              fallback={
+                <Flex
+                  justify="center"
+                  align="center"
+                  style={{ height: '100%' }}
+                >
+                  <LoadingOutlined style={{ fontSize: 32 }} />
+                </Flex>
+              }
+            >
+              <Routes>
+                <Route path="" element={<Match />} />
+                <Route path="players" element={<Players />} />
+              </Routes>
+            </Suspense>
+          </MatchDataProvider>
         </AppLayout>
       </BrowserRouter>
     </ConfigProvider>
