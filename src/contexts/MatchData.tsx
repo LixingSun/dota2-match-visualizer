@@ -3,7 +3,15 @@ import data from '@/data/match.json';
 import { IOverviewProps } from '@/pages/Match/Overview';
 import { IPlayerScoreboardData } from '@/pages/Match/TeamScoreboard';
 
-interface IMatchData {
+interface ILanePosData {
+  [x: string]: { [y: string]: number };
+}
+export interface IPlayerData {
+  name: string;
+  lanePos: ILanePosData;
+}
+
+export interface IMatchData {
   overview: IOverviewProps;
   radiant_gold_adv: number[];
   radiant_xp_adv: number[];
@@ -13,6 +21,7 @@ interface IMatchData {
   dire_xp: number[];
   radiant_scoreboard: IPlayerScoreboardData[];
   dire_scoreboard: IPlayerScoreboardData[];
+  players: IPlayerData[];
 }
 
 const calcTeamGoldXp = (teamNumber: number, isGold: boolean): number[] => {
@@ -81,6 +90,7 @@ export const MatchDataContext = createContext<IMatchData>({
   dire_xp: [],
   radiant_scoreboard: [],
   dire_scoreboard: [],
+  players: [],
 });
 
 export const MatchDataProvider: FC<{ children: ReactNode }> = ({
@@ -106,6 +116,10 @@ export const MatchDataProvider: FC<{ children: ReactNode }> = ({
     dire_xp: calcTeamGoldXp(1, false),
     radiant_scoreboard: calcScoreboard(0),
     dire_scoreboard: calcScoreboard(1),
+    players: data.players.map((player) => ({
+      lanePos: player.lane_pos as unknown as ILanePosData,
+      name: player.personaname,
+    })),
   };
 
   return (
