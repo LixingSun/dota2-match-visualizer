@@ -11,6 +11,8 @@ export interface IPlayerData {
   lanePos: IPosData;
   senPos: IPosData;
   obsPos: IPosData;
+  isRadiant: boolean;
+  heroDamage: number;
 }
 
 export interface IMatchData {
@@ -123,6 +125,8 @@ export const MatchDataProvider: FC<{ children: ReactNode }> = ({
       lanePos: player.lane_pos as unknown as IPosData,
       obsPos: player.obs as unknown as IPosData,
       senPos: player.sen as unknown as IPosData,
+      isRadiant: player.isRadiant,
+      heroDamage: player.hero_damage,
     })),
   };
 

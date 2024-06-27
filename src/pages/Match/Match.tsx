@@ -6,9 +6,17 @@ import AreaChart from '@/components/AreaChart';
 import { MatchDataContext } from '@/contexts/MatchData';
 import TeamScoreboard from './TeamScoreboard';
 import Overview from './Overview';
+import PieChart from '@/components/PieChart';
 
 const Match: FC = () => {
   const matchData = useContext(MatchDataContext);
+  const radiantHeroDamage = matchData.players
+    .filter((player) => player.isRadiant)
+    .map((player) => ({ value: player.heroDamage, name: player.name }));
+  const direHeroDamage = matchData.players
+    .filter((player) => !player.isRadiant)
+    .map((player) => ({ value: player.heroDamage, name: player.name }));
+
   return (
     <Row gutter={[16, 16]}>
       <Col span={24}>
@@ -19,6 +27,16 @@ const Match: FC = () => {
       </Col>
       <Col span={24}>
         <TeamScoreboard data={matchData.dire_scoreboard} isRadiant={false} />
+      </Col>
+      <Col xs={24} lg={12}>
+        <ChartCard title="Radiant Hero Damage">
+          <PieChart data={radiantHeroDamage} isRadiant={true} />
+        </ChartCard>
+      </Col>
+      <Col xs={24} lg={12}>
+        <ChartCard title="Dire Hero Damage">
+          <PieChart data={direHeroDamage} isRadiant={false} />
+        </ChartCard>
       </Col>
       <Col xs={24} lg={12}>
         <ChartCard title="Gold">
