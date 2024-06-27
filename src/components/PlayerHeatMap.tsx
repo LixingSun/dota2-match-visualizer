@@ -2,7 +2,7 @@ import { FC, useEffect, useRef } from 'react';
 import Heatmap, { Heatmap as HeatmapType } from 'heatmap.js';
 import minimap from '/minimap.jpeg';
 
-export interface ILanePosData {
+export interface IHeatmapPosData {
   x: number;
   y: number;
   value: number;
@@ -11,27 +11,44 @@ export interface ILanePosData {
 const minimapDataSize = 128;
 const minimapSize = 400;
 
-const PlayerHeatMap: FC<{ data: ILanePosData[] }> = ({ data }) => {
+interface IPlayerHeatmapProps {
+  data: IHeatmapPosData[];
+  id: string;
+  max: number;
+  radius: number;
+}
+
+const PlayerHeatMap: FC<IPlayerHeatmapProps> = ({ data, id, max, radius }) => {
   const heatmapInstance = useRef<HeatmapType<'value', 'x', 'y'> | null>(null);
 
   useEffect(() => {
-    const container = document.getElementById('player-heatmap') as HTMLElement;
+    const container = document.getElementById(
+      `player-heatmap-${id}`
+    ) as HTMLElement;
 
     heatmapInstance.current = Heatmap.create({
       container,
-      radius: 10,
+      radius,
     });
 
     heatmapInstance.current.setData({
       min: 0,
-      max: 15,
+      max: max,
       data: data.map((value) => ({
         x: ((value.x - minimapDataSize / 2) / minimapDataSize) * minimapSize,
         y: ((minimapDataSize * 1.5 - value.y) / minimapDataSize) * minimapSize,
         value: value.value,
       })),
     });
-  }, [data]);
+
+    return () => {
+      heatmapInstance.current?.setData({
+        min: 0,
+        max: max,
+        data: [],
+      });
+    };
+  }, [data, id, max, radius]);
 
   return (
     <div
@@ -44,7 +61,7 @@ const PlayerHeatMap: FC<{ data: ILanePosData[] }> = ({ data }) => {
       }}
     >
       <div
-        id="player-heatmap"
+        id={`player-heatmap-${id}`}
         style={{ width: '400px', height: '400px' }}
       ></div>
     </div>

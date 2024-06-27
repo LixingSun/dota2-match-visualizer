@@ -3,12 +3,14 @@ import data from '@/data/match.json';
 import { IOverviewProps } from '@/pages/Match/Overview';
 import { IPlayerScoreboardData } from '@/pages/Match/TeamScoreboard';
 
-interface ILanePosData {
+export interface IPosData {
   [x: string]: { [y: string]: number };
 }
 export interface IPlayerData {
   name: string;
-  lanePos: ILanePosData;
+  lanePos: IPosData;
+  senPos: IPosData;
+  obsPos: IPosData;
 }
 
 export interface IMatchData {
@@ -117,8 +119,10 @@ export const MatchDataProvider: FC<{ children: ReactNode }> = ({
     radiant_scoreboard: calcScoreboard(0),
     dire_scoreboard: calcScoreboard(1),
     players: data.players.map((player) => ({
-      lanePos: player.lane_pos as unknown as ILanePosData,
       name: player.personaname,
+      lanePos: player.lane_pos as unknown as IPosData,
+      obsPos: player.obs as unknown as IPosData,
+      senPos: player.sen as unknown as IPosData,
     })),
   };
 
